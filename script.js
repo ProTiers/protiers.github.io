@@ -51,3 +51,7 @@ window.addEventListener('click', function(e) {
     closePopup();
   }
 });
+
+const popupText = document.getElementById("popup-text");
+popupText.innerText = element.dataset.popupText;
+popupText.classList.add("rainbow-text");
