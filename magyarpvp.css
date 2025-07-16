@@ -237,3 +237,28 @@ nav a {
 .hide-when-not-popup {
   display: none;
 }
+
+@keyframes rainbow-shadow {
+  0%   { box-shadow: 0 0 20px 5px #ff0000; }
+  16%  { box-shadow: 0 0 20px 5px #ff9900; }
+  33%  { box-shadow: 0 0 20px 5px #ffff00; }
+  50%  { box-shadow: 0 0 20px 5px #00ff00; }
+  66%  { box-shadow: 0 0 20px 5px #0000ff; }
+  83%  { box-shadow: 0 0 20px 5px #9900ff; }
+  100% { box-shadow: 0 0 20px 5px #ff0000; }
+}
+
+@keyframes rainbow-bg {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+#rainbow-shadow {
+  animation: rainbow-shadow 2s linear infinite;
+  border-radius: 100px;
+  padding: 8px 16px;
+ background-color: aliceblue;
+  color: black;
+  display: inline-block;
+}
