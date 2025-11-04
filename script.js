@@ -21,7 +21,6 @@ document.querySelectorAll('.popup-trigger').forEach(el => {
         clone.classList.remove('hide-when-not-popup');
         return clone.outerHTML;
       }).join('');
-    // FAZE_gBR_24 popup szöveg szivárványos box-shadow
     const popupTextDiv = name === "FAZE_gBR_24"
       ? `<div id="rainbow-shadow" style="text-align:center;margin-bottom:12px;">${popupText}</div>`
       : `<div style="text-align:center;margin-bottom:12px;">${popupText}</div>`;
