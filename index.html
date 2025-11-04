@@ -3,333 +3,735 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ProTiers</title>
-  <meta content="Csatlakozz Te is a ProTiershez!" property="og:description">
-  <link rel="stylesheet" href="magyarpvp.css">
-  <link href="https://fonts.cdnfonts.com/css/minecraft-3" rel="stylesheet">
-  <title>Magyar PVP -tiers</title>
-  <link rel="icon" href="protiers_logo.ico" type="image/x-icon">
- 
+    <title>ProTiers - Comeback is real</title>
+    <meta name="description" content="ProTiers - Comeback Is real" />
+    <link rel="shortcut icon" href="../protiers_logo.ico" type="image/x-icon">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --background: 224 71% 4%;
+            --foreground: 213 31% 91%;
+            --card: 224 71% 4%;
+            --card-foreground: 213 31% 91%;
+            --popover: 224 71% 4%;
+            --popover-foreground: 213 31% 91%;
+            --primary: 210 40% 98%;
+            --primary-foreground: 222.2 47.4% 11.2%;
+            --secondary: 222.2 47.4% 11.2%;
+            --secondary-foreground: 210 40% 98%;
+            --muted: 223 47% 11%;
+            --muted-foreground: 215.4 16.3% 56.9%;
+            --accent: 216 34% 17%;
+            --accent-foreground: 210 40% 98%;
+            --destructive: 0 63% 31%;
+            --destructive-foreground: 210 40% 98%;
+            --border: 216 34% 17%;
+            --input: 216 34% 17%;
+            --ring: 216 34% 17%;
+            --tier-ht1: 0 100% 50%;
+            --tier-lt1: 14 100% 50%;
+            --tier-ht2: 33 100% 50%;
+            --tier-lt2: 45 100% 50%;
+            --tier-ht3: 120 100% 40%;
+            --tier-lt3: 180 100% 50%;
+            --tier-ht4: 220 100% 50%;
+            --tier-lt4: 260 100% 60%;
+            --tier-ht5: 300 100% 50%;
+            --tier-lt5: 280 60% 40%;
+            --tier-rht: 30 100% 40%;
+            --tier-rlt: 25 80% 35%;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: hsl(var(--background));
+            color: white
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 50;
+            backdrop-filter: blur(12px);
+            background: hsl(var(--background) / 0.8);
+            border-bottom: 1px solid hsl(var(--border) / 0.5);
+        }
+
+        .navbar-content {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 64px;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .logo-hu { color: hsl(var(--destructive)); }
+        .logo-tier { color: hsl(var(--muted-foreground)); }
+        .logo-s { color: hsl(var(--primary)); }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: none;
+            border: none;
+            color: hsl(var(--foreground));
+            cursor: pointer;
+            transition: color 0.2s;
+            font-size: 1rem;
+        }
+
+        .nav-link:hover {
+            color: hsl(var(--primary));
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 80px 1rem 2rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, hsl(var(--tier-ht1)), hsl(var(--tier-lt1)), hsl(var(--tier-ht2)));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header p {
+            color: hsl(var(--muted-foreground));
+            font-size: 1.125rem;
+        }
+
+        .search-container {
+            margin: 2rem 0;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: hsl(var(--card));
+            border: 1px solid hsl(var(--border));
+            border-radius: 0.75rem;
+            color: hsl(var(--foreground));
+            font-size: 1rem;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: hsl(var(--primary) / 0.5);
+        }
+
+        .game-modes {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            justify-content: center;
+            padding: 1.5rem 0;
+        }
+
+        .game-mode-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1rem;
+            background: hsl(var(--card));
+            border: 2px solid hsl(var(--border));
+            border-radius: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: hsl(var(--foreground));
+        }
+
+        .game-mode-btn:hover {
+            border-color: hsl(var(--primary) / 0.5);
+            transform: translateY(-2px);
+        }
+
+        .game-mode-btn.active {
+            background: hsl(var(--primary) / 0.2);
+            border-color: hsl(var(--primary));
+        }
+
+        .game-mode-icon {
+            font-size: 1.5rem;
+        }
+
+        .game-mode-name {
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .player-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .player-card {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: hsl(var(--card));
+            border: 1px solid hsl(var(--border));
+            border-radius: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .player-card:hover {
+            border-color: hsl(var(--primary) / 0.5);
+            transform: translateY(-2px);
+        }
+
+        .player-card.rank-1 {
+            background: linear-gradient(135deg, hsl(var(--tier-ht1) / 0.2), hsl(var(--background)));
+        }
+
+        .player-card.rank-2 {
+            background: linear-gradient(135deg, hsl(var(--tier-lt1) / 0.2), hsl(var(--background)));
+        }
+
+        .player-card.rank-3 {
+            background: linear-gradient(135deg, hsl(var(--tier-ht2) / 0.2), hsl(var(--background)));
+        }
+
+        .player-rank {
+            flex-shrink: 0;
+            width: 48px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white
+        }
+
+        .player-avatar {
+            flex-shrink: 0;
+        }
+
+        .player-avatar img {
+            width: 64px;
+            height: 64px;
+            border-radius: 0.5rem;
+        }
+
+        .player-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .player-name {
+            font-size: 1.125rem;
+            font-weight: bold;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            color: white;
+
+        }
+
+        .player-points {
+            font-size: 0.875rem;
+            color: white
+        }
+
+        .player-tiers {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            justify-content: flex-end;
+            max-width: 28rem;
+        }
+
+        .tier-badge {
+            width: 40px;
+            height: 32px;
+            border-radius: 0.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            color: white;
+        }
+
+        .tier-badge span {
+            font-size: 0.625rem;
+            font-weight: bold;
+            color: white;
+            text-transform: uppercase;
+        }
+
+        .tier-badge.empty {
+            background: hsl(var(--muted) / 0.3);
+        }
+
+        .tier-ht1 { background: hsl(var(--tier-ht1)); }
+        .tier-lt1 { background: hsl(var(--tier-lt1)); }
+        .tier-ht2 { background: hsl(var(--tier-ht2)); }
+        .tier-lt2 { background: hsl(var(--tier-lt2)); }
+        .tier-ht3 { background: hsl(var(--tier-ht3)); }
+        .tier-lt3 { background: hsl(var(--tier-lt3)); }
+        .tier-ht4 { background: hsl(var(--tier-ht4)); }
+        .tier-lt4 { background: hsl(var(--tier-lt4)); }
+        .tier-ht5 { background: hsl(var(--tier-ht5)); }
+        .tier-lt5 { background: hsl(var(--tier-lt5)); }
+        .tier-rht { background: hsl(var(--tier-rht)); }
+        .tier-rlt { background: hsl(var(--tier-rlt)); }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 100;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: hsl(var(--card));
+            border: 1px solid hsl(var(--border));
+            border-radius: 1rem;
+            max-width: 672px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 1.5rem;
+            position: relative;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: white
+            cursor: pointer;
+            font-size: 1.5rem;
+            padding: 0.25rem;
+            line-height: 1;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+        }
+
+        .modal-close:hover {
+            opacity: 1;
+        }
+
+        .modal-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .modal-skin img {
+            width: 192px;
+            height: auto;
+        }
+
+        .modal-stats {
+            width: 100%;
+            background: hsl(var(--secondary) / 0.5);
+            border-radius: 0.75rem;
+            padding: 1rem;
+        }
+
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .stat-label {
+            color: white
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .stat-value.rank {
+            font-size: 1.5rem;
+        }
+
+        .stat-value.points {
+            font-size: 1.25rem;
+            color: white
+        }
+
+        .modal-tiers {
+            width: 100%;
+        }
+
+        .modal-tiers h3 {
+            font-size: 1.125rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .tiers-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .tier-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: hsl(var(--secondary) / 0.3);
+            border-radius: 0.5rem;
+            padding: 0.75rem;
+        }
+
+        .tier-mode {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .tier-mode-icon {
+            font-size: 1.25rem;
+        }
+
+        .tier-mode-name {
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        @media (max-width: 640px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .nav-link span {
+                display: none;
+            }
+
+            .player-tiers {
+                max-width: 200px;
+            }
+
+            .tiers-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
+    <nav class="navbar">
+        <div class="navbar-content">
+            <div class="logo">
+                <span class="logo-hu">PRO</span><span class="logo-tier">TIER</span><span class="logo-s">S</span>
+            </div>
+            <div class="nav-links">
+                <button class="nav-link">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                        <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                    </svg>
+                    <span>Főoldal</span>
+                </button>
+                <button class="nav-link">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"></path>
+                    </svg>
+                    <span><a href="https://discord.gg/8ddtFuJRCC"></a>Discord</span>
+                </button>
+                <button class="nav-link">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                    <span>Profilod</span>
+                </button>
+            </div>
+        </div>
+    </nav>
 
-  <div class="allinone">
-<div class="logo">
-  <a href="index.html"><img src="protiers_logo.png" alt="protiers_logo">
-  </a>
-</div>
+    <div class="container">
+        <div class="header">
+            <h1>ProTiers</h1>
+            <p>Tierek és Statisztikák!</p>
+        </div>
 
-  <nav id="navbar">
-    <div class="navma">
-    <a href="index.html" ><b>🏠Főoldal</b></a>
-   </div>
-   <div class="navma">
-    <a href="https://protiers.github.io/kitek">Kitek</a>
-  </div>
-    <div class="navma">
-    <a href="https://discord.gg/QnxcwGV4P7" ><b>Discord</b></a>
-  </div>
-  <div class="navma">
-    <a href="https://www.google.com/search?sca_esv=f167355ffe644607&hl=it&sxsrf=AE3TifMqpFCK5lc6WXfSd8fmnn51fOV8EQ:1751046627534&q=cica&udm=2&fbs=AIIjpHyQhmcRdwyssNp0H4fUJo6s5eOtN-b8ZNcymYPhjpCSkW37LirDJgiI7B21cdL_qIPcf33sQXkh4FUNC5eJulDsnI0X4e8cUUGApkti0_U1oEUBnrYl2J2aCykrZ8H0ZxMxzG3e7NOXSlhgY4_zLTvHbQ1Cz8ZSoJIfUcbE42dn4ygzKkNrFgtdwCmcartaz0cYG-cyy2Ctv6L8f0KHdEqelZo0BQ&sa=X&ved=2ahUKEwjts-CBlZKOAxWSZ0EAHc8fG4sQtKgLKAF6BAgmEAE&biw=1920&bih=970&dpr=1"><b>🐈Cica</b></a>
-  </div>
-  </nav>
+        <div class="search-container">
+            <input type="text" id="searchInput" class="search-input" placeholder="Keress játékosra...">
+        </div>
 
-<div class="profile" data-popup-text="Debugging in code, mining by night" data-popup-img="hallgasspetofi.jpg">
-    <h1 class="popup-trigger" style="cursor:pointer;">FAZE_gBR_24</h1>
-    <div class="tiersall">
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/vanilla.svg"> : HT3</p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/smp.svg"> : HT5</p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/nethop.svg"> : </p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/sword.svg"> : HT4</p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/mace.svg"> : LT4</p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/pot.svg"> : HT5</p></div>
-    <div class="tiers"><p><img src="https://subtiers.net/assets/minecart-e4204998.svg"> : HT5</p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/uhc.svg"> : HT5</p></div>
-</div>
-</div>
+        <div class="game-modes" id="gameModes"></div>
 
-<div class="profile" data-popup-text="Aron25019 profilja" data-popup-img="https://example.com/image2.jpg">
-    <h1 class="popup-trigger" style="cursor:pointer;">Aron25019</h1>
-    <div class="tiersall">
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/vanilla.svg"> : HT4</p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/smp.svg"> : LT4</p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/nethop.svg"> : </p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/sword.svg"> : HT4</p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/mace.svg"> : </p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/pot.svg"> : HT5</p></div>
-    <div class="tiers"><p><img src="https://subtiers.net/assets/minecart-e4204998.svg"> : HT4</p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/uhc.svg"> : </p></div>
-</div>
-</div>
+        <div class="player-list" id="playerList"></div>
+    </div>
 
-<div class="profile" data-popup-text="Blint05 profilja" data-popup-img="https://example.com/image3.jpg">
-    <h1 class="popup-trigger" style="cursor:pointer;">Blint05</h1>
-    <div class="tiersall">
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/vanilla.svg"> : LT4</p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/smp.svg"> : LT5</p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/nethop.svg"> : </p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/sword.svg"> : HT4</p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/mace.svg"> : </p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/pot.svg"> : HT5</p></div>
-    <div class="tiers"><p><img src="https://subtiers.net/assets/minecart-e4204998.svg"> : HT5</p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/uhc.svg"> : </p></div>
-</div>
-</div>
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modalTitle"></h2>
+                <button class="modal-close" id="modalClose">&times;</button>
+            </div>
+            <div class="modal-content" id="modalContent"></div>
+        </div>
+    </div>
 
-<div class="profile" data-popup-text="RARECHALCIE4627 profilja" data-popup-img="https://example.com/image4.jpg">
-    <h1 class="popup-trigger" style="cursor:pointer;">RARECHALCIE4627</h1>
-    <div class="tiersall">
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/vanilla.svg" alt="crystal" title="CPVP: LT4"> : LT4</p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/smp.svg" alt="smp" title="SMP: HT5"> : HT5</p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/nethop.svg"> : </p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/sword.svg" alt="sword" title="SWORD: -"> : </p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/mace.svg" alt="mace" title="MACE: -"> : </p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/pot.svg" alt="poti" title="DIA POT: -"> : </p></div>
-    <div class="tiers"><p><img src="https://subtiers.net/assets/minecart-e4204998.svg" alt="cart" title="CART: HT5"> : LT4</p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/uhc.svg" alt="sziv" title="UHC: -"> : </p></div>
-</div>
-</div>
+    <script>
+        const gameModes = [
+            { id: "vanilla", name: "Crystal", icon: "🔮" },
+            { id: "uhc", name: "UHC", icon: "❤️" },
+            { id: "pot", name: "Pot", icon: "🧪" },
+            { id: "nethpot", name: "NethPot", icon: "⚔️" },
+            { id: "smp", name: "SMP", icon: "⛏️" },
+            { id: "sword", name: "Sword", icon: "🗡️" },
+            { id: "axe", name: "Axe", icon: "🪓" },
+            { id: "mace", name: "Mace", icon: "🔨" },
+            { id: "cart", name: "Cart", icon: "🛒" },
+            { id: "creeper", name: "Creeper", icon: "💚" },
+            { id: "diasmp", name: "DiaSMP", icon: "🎮" },
+            { id: "ogvanilla", name: "OG Vanilla", icon: "🍊" },
+            { id: "shieldless", name: "Shieldless UHC", icon: "🧀" },
+        ];
 
-<div class="profile" data-popup-text="Never giveup!!" data-popup-img="weno5.jpg">
-    <h1 class="popup-trigger" style="cursor:pointer;">ItzWenoo</h1>
-    <div class="tiersall">
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/vanilla.svg" alt="crystal" title="CPVP: HT5"> : HT5</p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/smp.svg" alt="smp" title="SMP: -"> : </p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/nethop.svg"> : </p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/sword.svg" alt="sword" title="SWORD: HT5"> : LT3</p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/mace.svg" alt="mace" title="MACE: LT4"> : HT2</p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/pot.svg" alt="poti" title="DIA POT: -"> : </p></div>
-    <div class="tiers"><p><img src="https://subtiers.net/assets/minecart-e4204998.svg" alt="cart" title="CART: LT4"> : LT3</p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/uhc.svg" alt="sziv" title="UHC: HT4"> : HT4</p></div>
-</div>
-</div>
+        const players = [
+            {
+                id: "1",
+                username: "Muavees",
+                uuid: "52af5540dd184ad99acb50eb11531180",
+                points: 1250,
+                rank: 1,
+                tiers: { vanilla: "HT2", uhc: "LT4", pot: "HT5", nethpot: "HT5", smp: "LT4", sword: "HT3", axe: "LT1", mace: "LT3", cart: "LT3", creeper: "LT4", diasmp: "HT5", ogvanilla: "LT5", shieldless: "HT4" }
+            },
+            {
+                id: "2",
+                username: "xWcnoo",
+                uuid: "xWcnoo",
+                points: 1100,
+                rank: 2,
+                tiers: { vanilla: "LT4", uhc: "HT4", pot: "-", nethpot: "-", smp: "-", sword: "LT3", axe: "-", mace: "LT1", cart: "LT3", creeper: "-", diasmp: "-", ogvanilla: "-", shieldless: "-" }
+            },
+            {
+                id: "3",
+                username: "Aron25019",
+                uuid: "Alex",
+                points: 950,
+                rank: 3,
+                tiers: { vanilla: "HT2", uhc: "LT4", pot: "-", nethpot: "HT3", smp: "LT3", sword: "LT3", axe: "LT4", mace: "HT4", cart: "LT4", creeper: "-", diasmp: "-", ogvanilla: "-", shieldless: "-" }
+            },
+            {
+                id: "4",
+                username: "AbelCobra",
+                uuid: "AbelCobra",
+                points: 850,
+                rank: 4,
+                tiers: { vanilla: "LT3", uhc: "-", pot: "-", nethpot: "-", smp: "-", sword: "LT1", axe: "-", mace: "LT3", cart: "-", creeper: "-", diasmp: "-", ogvanilla: "-", shieldless: "-" }
+            },
+         
+        ];
 
-<div class="profile" data-popup-text="ItzWiooo profilja" data-popup-img="https://example.com/image6.jpg">
-    <h1 class="popup-trigger" style="cursor:pointer;">ItzWiooo</h1>
-    <div class="tiersall">
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/vanilla.svg" alt="crystal" title="CPVP: -"> : </p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/smp.svg" alt="smp" title="SMP: LT4"> : LT4</p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/nethop.svg"> : </p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/sword.svg" alt="sword" title="SWORD: LT5"> : LT5</p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/mace.svg" alt="mace" title="MACE: HT5"> : HT5</p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/pot.svg" alt="poti" title="DIA POT: LT4"> : LT4</p></div>
-    <div class="tiers"><p><img src="https://subtiers.net/assets/minecart-e4204998.svg" alt="cart" title="CART: -"> : </p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/uhc.svg" alt="sziv" title="UHC: -"> : </p></div>
-</div>
-</div>
+        let selectedMode = "vanilla";
+        let searchQuery = "";
 
-<div class="profile" data-popup-text="AbelCobra11 profilja" data-popup-img="https://example.com/image7.jpg">
-    <h1 class="popup-trigger" style="cursor:pointer;">AbelCobra</h1>
-    <div class="tiersall">
-    <div class="tiers "><p><img src="https://mctiers.com/tier_icons/vanilla.svg" alt="crystal" title="CPVP: HT5"> : LT3</p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/smp.svg" alt="smp" title="SMP: -"> : </p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/nethop.svg"> : </p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/sword.svg" alt="sword" title="SWORD: HT4"> : HT2</p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/mace.svg" alt="mace" title="MACE: LT4"> : LT4</p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/pot.svg" alt="poti" title="DIA POT: -"> : </p></div>
-    <div class="tiers"><p><img src="https://subtiers.net/assets/minecart-e4204998.svg" alt="cart" title="CART: -"> : </p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/uhc.svg" alt="sziv" title="UHC: -"> : </p></div>
-</div>
-</div>
+        function getTierClass(tier) {
+            if (!tier) return "empty";
+            const tierLower = tier.toLowerCase();
+            if (tierLower === "ht1") return "tier-ht1";
+            if (tierLower === "lt1") return "tier-lt1";
+            if (tierLower === "ht2") return "tier-ht2";
+            if (tierLower === "lt2") return "tier-lt2";
+            if (tierLower === "ht3") return "tier-ht3";
+            if (tierLower === "lt3") return "tier-lt3";
+            if (tierLower === "ht4") return "tier-ht4";
+            if (tierLower === "lt4") return "tier-lt4";
+            if (tierLower === "ht5") return "tier-ht5";
+            if (tierLower === "lt5") return "tier-lt5";
+            if (tierLower.startsWith("rht")) return "tier-rht";
+            if (tierLower.startsWith("rlt")) return "tier-rlt";
+            return "empty";
+        }
 
+        function renderGameModes() {
+            const container = document.getElementById("gameModes");
+            container.innerHTML = gameModes.map(mode => `
+                <button 
+                    class="game-mode-btn ${selectedMode === mode.id ? 'active' : ''}"
+                    onclick="selectMode('${mode.id}')"
+                >
+                    <span class="game-mode-icon">${mode.icon}</span>
+                    <span class="game-mode-name">${mode.name}</span>
+                </button>
+            `).join("");
+        }
 
-<div class="profile" data-popup-text="beniNoob2 profilja" data-popup-img="https://example.com/image7.jpg">
-    <h1 class="popup-trigger" style="cursor:pointer;">beniNoob2</h1>
-    <div class="tiersall">
-    <div class="tiers "><p><img src="https://mctiers.com/tier_icons/vanilla.svg" alt="crystal" title="CPVP: -"> : </p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/smp.svg" alt="smp" title="SMP: LT3"> : LT3</p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/nethop.svg"> : </p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/sword.svg" alt="sword" title="SWORD: LT3"> : LT3</p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/mace.svg" alt="mace" title="MACE: -"> : -</p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/pot.svg" alt="poti" title="DIA POT: -"> : LT3</p></div>
-    <div class="tiers"><p><img src="https://subtiers.net/assets/minecart-e4204998.svg" alt="cart" title="CART: -"> : </p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/uhc.svg" alt="sziv" title="UHC: -"> : </p></div>
-</div>
-</div>
+        function renderTierBadge(tier) {
+            const tierClass = getTierClass(tier);
+            const displayTier = tier || "-";
+            return `<div class="tier-badge ${tierClass}"><span>${displayTier}</span></div>`;
+        }
 
-<div class="profile" data-popup-text="OhKris profilja" data-popup-img="https://example.com/image7.jpg">
-    <h1 class="popup-trigger" style="cursor:pointer;">OhrKris</h1>
-    <div class="tiersall">
-    <div class="tiers "><p><img src="https://mctiers.com/tier_icons/vanilla.svg" alt="crystal" title="CPVP: LT4"> : LT2</p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/smp.svg" alt="smp" title="SMP: -"> : </p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/nethop.svg"> : </p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/sword.svg" alt="sword" title="SWORD: -"> : LT4</p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/mace.svg" alt="mace" title="MACE: -"> : -</p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/pot.svg" alt="poti" title="DIA POT: -"> : </p></div>
-    <div class="tiers"><p><img src="https://subtiers.net/assets/minecart-e4204998.svg" alt="cart" title="CART: -"> : </p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/uhc.svg" alt="sziv" title="UHC: -"> : </p></div>
-</div>
-</div>
+        function renderPlayers() {
+            const container = document.getElementById("playerList");
+            
+            let filteredPlayers = players.filter(player => 
+                player.username.toLowerCase().includes(searchQuery.toLowerCase())
+            );
 
-<div class="profile" data-popup-text="Istike profilja" data-popup-img="https://example.com/image7.jpg">
-    <h1 class="popup-trigger" style="cursor:pointer;">Istike</h1>
-    <div class="tiersall">
-    <div class="tiers "><p><img src="https://mctiers.com/tier_icons/vanilla.svg" alt="crystal" title="CPVP: LT5"> : LT5</p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/smp.svg" alt="smp" title="SMP: -"> : </p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/nethop.svg"> : </p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/sword.svg" alt="sword" title="SWORD: -"> : </p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/mace.svg" alt="mace" title="MACE: -"> : -</p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/pot.svg" alt="poti" title="DIA POT: -"> : </p></div>
-    <div class="tiers"><p><img src="https://subtiers.net/assets/minecart-e4204998.svg" alt="cart" title="CART: -"> : </p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/uhc.svg" alt="sziv" title="UHC: -"> : </p></div>
-</div>
-</div>
+            if (filteredPlayers.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: hsl(var(--muted-foreground));">Nincs találat</p>';
+                return;
+            }
 
-<div class="profile" data-popup-text="Teo az Istenem profilja" data-popup-img="https://example.com/image7.jpg">
-    <h1 class="popup-trigger" style="cursor:pointer;">Teo az Istenem</h1>
-    <div class="tiersall">
-    <div class="tiers "><p><img src="https://mctiers.com/tier_icons/vanilla.svg" alt="crystal" title="CPVP: -"> : </p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/smp.svg" alt="smp" title="SMP: -"> : </p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/nethop.svg"> : </p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/sword.svg" alt="sword" title="SWORD: -"> : </p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/mace.svg" alt="mace" title="MACE: -"> : -</p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/pot.svg" alt="poti" title="DIA POT: HT4"> : HT4</p></div>
-    <div class="tiers"><p><img src="https://subtiers.net/assets/minecart-e4204998.svg" alt="cart" title="CART: -"> : </p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/uhc.svg" alt="sziv" title="UHC: -"> : </p></div>
-</div>
-</div>
+            container.innerHTML = filteredPlayers.map(player => {
+                const rankClass = player.rank <= 3 ? `rank-${player.rank}` : '';
+                const tierBadges = gameModes.map(mode => 
+                    renderTierBadge(player.tiers[mode.id])
+                ).join("");
 
-<div class="profile" data-popup-text="bence1111 profilja" data-popup-img="https://example.com/image7.jpg">
-    <h1 class="popup-trigger" style="cursor:pointer;">bence1111</h1>
-    <div class="tiersall">
-    <div class="tiers "><p><img src="https://mctiers.com/tier_icons/vanilla.svg" alt="crystal" title="CPVP: HT5"> : HT5</p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/smp.svg" alt="smp" title="SMP: -"> : </p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/nethop.svg"> : </p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/sword.svg" alt="sword" title="SWORD: -"> : </p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/mace.svg" alt="mace" title="MACE: -"> : LT5</p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/pot.svg" alt="poti" title="DIA POT: -"> : </p></div>
-    <div class="tiers"><p><img src="https://subtiers.net/assets/minecart-e4204998.svg" alt="cart" title="CART: -"> : </p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/uhc.svg" alt="sziv" title="UHC: LT4"> : LT4</p></div>
-</div>
-</div>
+                return `
+                    <button class="player-card ${rankClass}" onclick="openModal('${player.id}')">
+                        <div class="player-rank">${player.rank}.</div>
+                        <div class="player-avatar">
+                            <img src="https://nmsr.nickac.dev/bust/${player.uuid}" alt="${player.username}" loading="lazy">
+                        </div>
+                        <div class="player-info">
+                            <h3 class="player-name">${player.username}</h3>
+                            <p class="player-points">${player.points} Pont</p>
+                        </div>
+                        <div class="player-tiers">
+                            ${tierBadges}
+                        </div>
+                    </button>
+                `;
+            }).join("");
+        }
 
-    <div class="profile" data-popup-text="_T3ch profilja" data-popup-img="https://example.com/image7.jpg">
-    <h1 class="popup-trigger" style="cursor:pointer;">_T3ch</h1>
-    <div class="tiersall">
-    <div class="tiers "><p><img src="https://mctiers.com/tier_icons/vanilla.svg" alt="crystal" title="CPVP: LT3"> : LT3</p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/smp.svg" alt="smp" title="SMP: -"> : </p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/nethop.svg"> : </p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/sword.svg" alt="sword" title="SWORD: -"> : </p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/mace.svg" alt="mace" title="MACE: -"> : LT3</p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/pot.svg" alt="poti" title="DIA POT: -"> : </p></div>
-    <div class="tiers"><p><img src="https://subtiers.net/assets/minecart-e4204998.svg" alt="cart" title="CART: -"> : </p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/uhc.svg" alt="sziv" title="UHC: -"> : </p></div>
-</div>
-</div>
+        function selectMode(modeId) {
+            selectedMode = modeId;
+            renderGameModes();
+        }
 
-    <div class="profile" data-popup-text="a4sd profilja" data-popup-img="https://example.com/image7.jpg">
-    <h1 class="popup-trigger" style="cursor:pointer;">asd</h1>
-    <div class="tiersall">
-    <div class="tiers "><p><img src="https://mctiers.com/tier_icons/vanilla.svg" alt="crystal" title="CPVP: -"> : LT3</p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/smp.svg" alt="smp" title="SMP: -"> : </p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/nethop.svg"> : </p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/sword.svg" alt="sword" title="SWORD: -"> : </p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/mace.svg" alt="mace" title="MACE: -"> : -</p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/pot.svg" alt="poti" title="DIA POT: HT4"> : </p></div>
-    <div class="tiers"><p><img src="https://subtiers.net/assets/minecart-e4204998.svg" alt="cart" title="CART: -"> : </p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/uhc.svg" alt="sziv" title="UHC: -"> : </p></div>
-</div>
-</div>
+        function openModal(playerId) {
+            const player = players.find(p => p.id === playerId);
+            if (!player) return;
 
-      <div class="profile" data-popup-text="MathiaSus profilja" data-popup-img="https://example.com/image7.jpg">
-    <h1 class="popup-trigger" style="cursor:pointer;">MathiaSus</h1>
-    <div class="tiersall">
-    <div class="tiers "><p><img src="https://mctiers.com/tier_icons/vanilla.svg" alt="crystal" title="CPVP: -"> : LT3</p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/smp.svg" alt="smp" title="SMP: -"> : </p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/nethop.svg"> : </p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/sword.svg" alt="sword" title="SWORD: -"> : </p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/mace.svg" alt="mace" title="MACE: -"> : -</p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/pot.svg" alt="poti" title="DIA POT: HT4"> : </p></div>
-    <div class="tiers"><p><img src="https://subtiers.net/assets/minecart-e4204998.svg" alt="cart" title="CART: -"> : </p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/uhc.svg" alt="sziv" title="UHC: -"> : </p></div>
-</div>
-</div>
+            const modal = document.getElementById("modalOverlay");
+            const title = document.getElementById("modalTitle");
+            const content = document.getElementById("modalContent");
 
-      <div class="profile" data-popup-text="gyere1v1tes profilja" data-popup-img="https://example.com/image7.jpg">
-    <h1 class="popup-trigger" style="cursor:pointer;">gyere1v1tes</h1>
-    <div class="tiersall">
-    <div class="tiers "><p><img src="https://mctiers.com/tier_icons/vanilla.svg" alt="crystal" title="CPVP: -"> : LT4</p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/smp.svg" alt="smp" title="SMP: -"> : </p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/nethop.svg"> : </p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/sword.svg" alt="sword" title="SWORD: -"> : </p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/mace.svg" alt="mace" title="MACE: -"> : -</p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/pot.svg" alt="poti" title="DIA POT: HT4"> : </p></div>
-    <div class="tiers"><p><img src="https://subtiers.net/assets/minecart-e4204998.svg" alt="cart" title="CART: -"> : </p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/uhc.svg" alt="sziv" title="UHC: -"> : </p></div>
-</div>
-</div>
+            title.textContent = player.username;
 
-         <div class="profile" data-popup-text="ClashRoyale456 profilja" data-popup-img="https://example.com/image7.jpg">
-    <h1 class="popup-trigger" style="cursor:pointer;">ClashRoyale456</h1>
-    <div class="tiersall">
-    <div class="tiers "><p><img src="https://mctiers.com/tier_icons/vanilla.svg" alt="crystal" title="CPVP: -"> : LT5</p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/smp.svg" alt="smp" title="SMP: -"> : </p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/nethop.svg"> : </p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/sword.svg" alt="sword" title="SWORD: -"> : </p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/mace.svg" alt="mace" title="MACE: -"> : -</p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/pot.svg" alt="poti" title="DIA POT: HT4"> : </p></div>
-    <div class="tiers"><p><img src="https://subtiers.net/assets/minecart-e4204998.svg" alt="cart" title="CART: -"> : </p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/uhc.svg" alt="sziv" title="UHC: -"> : </p></div>
-</div>
-</div>
+            const tiersGrid = gameModes.map(mode => `
+                <div class="tier-row">
+                    <div class="tier-mode">
+                        <span class="tier-mode-icon">${mode.icon}</span>
+                        <span class="tier-mode-name">${mode.name}</span>
+                    </div>
+                    ${renderTierBadge(player.tiers[mode.id])}
+                </div>
+            `).join("");
 
-         <div class="profile" data-popup-text="BestOfHungary_HT profilja" data-popup-img="https://example.com/image7.jpg">
-    <h1 class="popup-trigger" style="cursor:pointer;">BestOfHungary_HT</h1>
-    <div class="tiersall">
-    <div class="tiers "><p><img src="https://mctiers.com/tier_icons/vanilla.svg" alt="crystal" title="CPVP: -"> : HT2</p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/smp.svg" alt="smp" title="SMP: -"> : </p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/nethop.svg"> : </p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/sword.svg" alt="sword" title="SWORD: -"> : HT5</p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/mace.svg" alt="mace" title="MACE: -"> : -</p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/pot.svg" alt="poti" title="DIA POT: HT4"> : </p></div>
-    <div class="tiers"><p><img src="https://subtiers.net/assets/minecart-e4204998.svg" alt="cart" title="CART: -"> : </p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/uhc.svg" alt="sziv" title="UHC: -"> : </p></div>
-</div>
+            content.innerHTML = `
+                <div class="modal-skin">
+                    <img src="https://nmsr.nickac.dev/fullbody/${player.uuid}" alt="${player.username}" loading="lazy">
+                </div>
+                <div class="modal-stats">
+                    <div class="stat-row">
+                        <span class="stat-label">Rank:</span>
+                        <span class="stat-value rank">#${player.rank}</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-label">Points:</span>
+                        <span class="stat-value points">${player.points}</span>
+                    </div>
+                </div>
+                <div class="modal-tiers">
+                    <h3>Tierek</h3>
+                    <div class="tiers-grid" style="color: white;">
+                        ${tiersGrid}
+                    </div>
+                </div>
+            `;
 
-                  <div class="profile" data-popup-text="mrbambus_ profilja" data-popup-img="https://example.com/image7.jpg">
-    <h1 class="popup-trigger" style="cursor:pointer;">MrBambus_</h1>
-    <div class="tiersall">
-    <div class="tiers "><p><img src="https://mctiers.com/tier_icons/vanilla.svg" alt="crystal" title="CPVP: -"> : </p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/smp.svg" alt="smp" title="SMP: -"> : </p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/nethop.svg"> : </p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/sword.svg" alt="sword" title="SWORD: -"> : HT5</p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/mace.svg" alt="mace" title="MACE: -"> : -</p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/pot.svg" alt="poti" title="DIA POT: HT4"> : </p></div>
-    <div class="tiers"><p><img src="https://subtiers.net/assets/minecart-e4204998.svg" alt="cart" title="CART: -"> : </p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/uhc.svg" alt="sziv" title="UHC: -"> : </p></div>
-</div>
+            modal.classList.add("active");
+        }
 
-             <div class="profile" data-popup-text="mrdavelol profilja" data-popup-img="https://example.com/image7.jpg">
-    <h1 class="popup-trigger" style="cursor:pointer;">MrDaveLol</h1>
-    <div class="tiersall">
-    <div class="tiers "><p><img src="https://mctiers.com/tier_icons/vanilla.svg" alt="crystal" title="CPVP: -"> : HT5</p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/smp.svg" alt="smp" title="SMP: -"> : </p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/nethop.svg"> : </p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/sword.svg" alt="sword" title="SWORD: -"> : </p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/mace.svg" alt="mace" title="MACE: -"> : -</p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/pot.svg" alt="poti" title="DIA POT: HT4"> : </p></div>
-    <div class="tiers"><p><img src="https://subtiers.net/assets/minecart-e4204998.svg" alt="cart" title="CART: -"> : </p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/uhc.svg" alt="sziv" title="UHC: -"> : </p></div>
-</div>
+        function closeModal() {
+            document.getElementById("modalOverlay").classList.remove("active");
+        }
 
-             <div class="profile" data-popup-text="Sanyeszkusz profilja" data-popup-img="https://example.com/image7.jpg">
-    <h1 class="popup-trigger" style="cursor:pointer;">Sanyeszkusz</h1>
-    <div class="tiersall">
-    <div class="tiers "><p><img src="https://mctiers.com/tier_icons/vanilla.svg" alt="crystal" title="CPVP: -"> : </p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/smp.svg" alt="smp" title="SMP: -"> : </p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/nethop.svg"> : </p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/sword.svg" alt="sword" title="SWORD: -"> : LT5</p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/mace.svg" alt="mace" title="MACE: -"> : -</p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/pot.svg" alt="poti" title="DIA POT: HT4"> : </p></div>
-    <div class="tiers"><p><img src="https://subtiers.net/assets/minecart-e4204998.svg" alt="cart" title="CART: -"> : </p></div>
-    <div class="tiers"><p><img src="https://mctiers.com/tier_icons/uhc.svg" alt="sziv" title="UHC: -"> : </p></div>
-</div>
-</div>
-<div id="popup" class="popup">
-  <button class="popup-close" onclick="closePopup()">✖</button>
-  <div id="popup-content"></div>
-</div>
-<script src="script.js"></script>
+        document.getElementById("searchInput").addEventListener("input", (e) => {
+            searchQuery = e.target.value;
+            renderPlayers();
+        });
 
+        document.getElementById("modalOverlay").addEventListener("click", (e) => {
+            if (e.target.id === "modalOverlay") {
+                closeModal();
+            }
+        });
+
+        document.getElementById("modalClose").addEventListener("click", closeModal);
+
+        renderGameModes();
+        renderPlayers();
+    </script>
 </body>
 </html>
